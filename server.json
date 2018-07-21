@@ -1,0 +1,21 @@
+{
+    "name": "AmbientPoly",
+    "docs": "https://github.com/bpaauwe/AmbientPoly",
+    "type": "python",
+    "executable": "ambient-poly.py",
+    "install": "install.sh",
+    "description": "Ambient Weather Station",
+    "notice": "Your disclaimer here",
+    "shortPoll": "5",
+    "longPoll": "60",
+    "credits": [
+        {
+            "title": "AmbientPoly: a NodeServer for Ambient Weather IP based weather stations",
+            "author": "Bob Paauwe",
+            "version": "0.1.0",
+            "date": "July 19, 2018",
+            "source": "https://github.com/bpaauwe/AmbientPoly",
+            "license": "https://raw.githubusercontent.com/bpaauwe/AmbientPoly/master/LICENSE"
+        }
+    ]
+}

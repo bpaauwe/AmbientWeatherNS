@@ -1,0 +1,85 @@
+# controller
+ND-controller-NAME = Ambient Weather
+CMD-ctl-DISCOVER-NAME = Re-Discover
+CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
+CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
+ST-ctl-ST-NAME = NodeServer Online
+
+# mynodetype
+ND-temperature-NAME = Temperature
+ST-Ambient_T-ST-NAME = Temperature
+ST-Ambient_T-GV0-NAME = Apparent Temperature
+ST-Ambient_T-GV1-NAME = DewPoint
+ST-Ambient_T-GV2-NAME = Heat Index
+ST-Ambient_T-GV3-NAME = Windchill
+
+ND-humidity-NAME = Humidity
+ST-Ambient_H-ST-NAME = Humidity
+
+ND-pressure-NAME = Barometric Pressure
+ST-Ambient_P-ST-NAME = Absolute Pressure
+ST-Ambient_P-GV0-NAME = Relative Pressure
+ST-Ambient_P-GV1-NAME = Pressure Trend
+
+ND-wind-NAME = Wind
+ST-Ambient_W-ST-NAME = Wind Speed
+ST-Ambient_W-GV0-NAME = Wind Direction
+ST-Ambient_W-GV1-NAME = Gust Speed
+ST-Ambient_W-GV2-NAME = Gust Direction
+
+ND-rain-NAME = Rainfall
+ST-Ambient_R-ST-NAME = Rain Rate
+ST-Ambient_R-GV0-NAME = Hourly Rainfall
+ST-Ambient_R-GV1-NAME = Daily Rainfall
+ST-Ambient_R-GV2-NAME = Weekly Rainfall
+ST-Ambient_R-GV3-NAME = Monthly Rainfall
+ST-Ambient_R-GV4-NAME = Yearly Rainfall
+
+ND-light-NAME = Light
+ST-Ambient_L-ST-NAME = UV Index
+ST-Ambient_L-GV0-NAME = Solar Radiation
+ST-Ambient_L-GV1-NAME = Illumination
+
+EN_RAINTYPE-0 = None
+EN_RAINTYPE-1 = Rain
+EN_RAINTYPE-2 = Hail
+EN_RAINTYPE-3 = Rain & Hail
+
+EN_TREND-0 = Falling
+EN_TREND-1 = Steady
+EN_TREND-2 = Rising
+
+EN_CARDINAL-0 = N
+EN_CARDINAL-1 = NNE
+EN_CARDINAL-2 = NE
+EN_CARDINAL-3 = ENE
+EN_CARDINAL-4 = E
+EN_CARDINAL-5 = ESE
+EN_CARDINAL-6 = SE
+EN_CARDINAL-7 = SSE
+EN_CARDINAL-8 = S
+EN_CARDINAL-9 = SSW
+EN_CARDINAL-10 = SW
+EN_CARDINAL-11 = WSW
+EN_CARDINAL-12 = W
+EN_CARDINAL-13 = WNW
+EN_CARDINAL-14 = NW
+EN_CARDINAL-15 = NNW
+
+EN_WIND_DIRECTION-0 = N
+EN_WIND_DIRECTION-1 = NNE
+EN_WIND_DIRECTION-2 = NE
+EN_WIND_DIRECTION-3 = ENE
+EN_WIND_DIRECTION-4 = E
+EN_WIND_DIRECTION-5 = ESE
+EN_WIND_DIRECTION-6 = SE
+EN_WIND_DIRECTION-7 = SSE
+EN_WIND_DIRECTION-8 = S
+EN_WIND_DIRECTION-9 = SSW
+EN_WIND_DIRECTION-10 = SW
+EN_WIND_DIRECTION-11 = WSW
+EN_WIND_DIRECTION-12 = W
+EN_WIND_DIRECTION-13 = WNW
+EN_WIND_DIRECTION-14 = NW
+EN_WIND_DIRECTION-15 = NNW
+

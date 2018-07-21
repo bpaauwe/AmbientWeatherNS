@@ -1,0 +1,77 @@
+<nodeDefs>
+    <!-- NODE DEF from 5.0 document http://wiki.universal-devices.com/index.php?title=V50_MAIN -->
+    <!-- controller -->
+    <nodeDef id="controller" nls="ctl">
+        <editors />
+        <sts>
+			<st id="ST" editor="bool" />
+		</sts>
+        <cmds>
+            <sends />
+            <accepts>
+              <cmd id="DISCOVER" />
+              <cmd id="REMOVE_NOTICES_ALL" />
+              <cmd id="UPDATE_PROFILE" />
+            </accepts>
+        </cmds>
+    </nodeDef>
+
+	<!-- mynodetype -->
+    <nodeDef id="temperature" nls="Ambient_T">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_TEMP_F" />
+            <st id="GV1" editor="I_TEMP_F" />
+            <st id="GV2" editor="I_TEMP_F" />
+            <st id="GV3" editor="I_TEMP_F" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="humidity" nls="Ambient_H">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="pressure" nls="Ambient_P">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_INHG" />
+            <st id="GV0" editor="I_INHG" />
+            <st id="GV1" editor="I_TREND" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="wind" nls="Ambient_W">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_MPH" />
+            <st id="GV0" editor="I_DEGREE" />
+            <st id="GV1" editor="I_MPH" />
+            <st id="GV2" editor="I_DEGREE" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="rain" nls="Ambient_R">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_INHR" />
+            <st id="GV0" editor="I_INCHES" />
+            <st id="GV1" editor="I_INCHES" />
+            <st id="GV2" editor="I_INCHES" />
+            <st id="GV3" editor="I_INCHES" />
+            <st id="GV4" editor="I_INCHES" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="light" nls="Ambient_L">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_UV" />
+            <st id="GV0" editor="I_RADIATION" />
+            <st id="GV1" editor="I_LUX" />
+        </sts>
+    </nodeDef>
+</nodeDefs>
