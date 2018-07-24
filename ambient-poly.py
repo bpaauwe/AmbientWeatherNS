@@ -281,7 +281,7 @@ class TemperatureNode(polyinterface.Node):
 
 class HumidityNode(polyinterface.Node):
 	id = 'humidity'
-	drivers = [{'driver': 'ST', 'value': 0, 'uom': 2}]
+	drivers = [{'driver': 'ST', 'value': 0, 'uom': 22}]
 
 class PressureNode(polyinterface.Node):
 	id = 'pressure'
