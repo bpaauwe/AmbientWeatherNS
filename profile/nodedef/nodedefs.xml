@@ -1,10 +1,11 @@
 <nodeDefs>
     <!-- NODE DEF from 5.0 document http://wiki.universal-devices.com/index.php?title=V50_MAIN -->
     <!-- controller -->
-    <nodeDef id="controller" nls="ctl">
+    <nodeDef id="Ambient" nodeType="139" nls="ctl">
         <editors />
         <sts>
 			<st id="ST" editor="bool" />
+			<st id="BATLVL" editor="I_VOLTS" />
 		</sts>
         <cmds>
             <sends />
@@ -17,7 +18,7 @@
     </nodeDef>
 
 	<!-- mynodetype -->
-    <nodeDef id="temperature" nls="Ambient_T">
+    <nodeDef id="temperature" nodeType="139" nls="139T">
         <editors />
         <sts>
             <st id="ST" editor="I_TEMP_F" />
@@ -28,14 +29,14 @@
         </sts>
     </nodeDef>
 
-    <nodeDef id="humidity" nls="Ambient_H">
+    <nodeDef id="humidity" nodeType="139" nls="139H">
         <editors />
         <sts>
             <st id="ST" editor="I_HUMIDITY" />
         </sts>
     </nodeDef>
 
-    <nodeDef id="pressure" nls="Ambient_P">
+    <nodeDef id="pressure" nodeType="139" nls="139P">
         <editors />
         <sts>
             <st id="ST" editor="I_INHG" />
@@ -44,7 +45,7 @@
         </sts>
     </nodeDef>
 
-    <nodeDef id="wind" nls="Ambient_W">
+    <nodeDef id="wind" nodeType="139" nls="139W">
         <editors />
         <sts>
             <st id="ST" editor="I_MPH" />
@@ -54,7 +55,7 @@
         </sts>
     </nodeDef>
 
-    <nodeDef id="rain" nls="Ambient_R">
+    <nodeDef id="precipitation" nodeType="139" nls="139R">
         <editors />
         <sts>
             <st id="ST" editor="I_INHR" />
@@ -66,7 +67,7 @@
         </sts>
     </nodeDef>
 
-    <nodeDef id="light" nls="Ambient_L">
+    <nodeDef id="light" nodeType="139" nls="139L">
         <editors />
         <sts>
             <st id="ST" editor="I_UV" />

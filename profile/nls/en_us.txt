@@ -1,44 +1,52 @@
 # controller
-ND-controller-NAME = Ambient Weather
+ND-Ambient-NAME = Ambient Weather
+ND-Ambient-ICON = Weather
 CMD-ctl-DISCOVER-NAME = Re-Discover
 CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
 CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
 ST-ctl-ST-NAME = NodeServer Online
+ST-ctl-BATLVL-NAME = Battery
 
 # mynodetype
-ND-temperature-NAME = Temperature
-ST-Ambient_T-ST-NAME = Temperature
-ST-Ambient_T-GV0-NAME = Apparent Temperature
-ST-Ambient_T-GV1-NAME = DewPoint
-ST-Ambient_T-GV2-NAME = Heat Index
-ST-Ambient_T-GV3-NAME = Windchill
+ND-temperature-NAME = Temperatures
+ND-temperature-ICON = Input
+ST-139T-ST-NAME = Temperature
+ST-139T-GV0-NAME = Apparent Temperature
+ST-139T-GV1-NAME = DewPoint
+ST-139T-GV2-NAME = Heat Index
+ST-139T-GV3-NAME = Windchill
 
 ND-humidity-NAME = Humidity
-ST-Ambient_H-ST-NAME = Humidity
+ND-humidity-ICON = Input
+ST-139H-ST-NAME = Humidity
 
-ND-pressure-NAME = Barometric Pressure
-ST-Ambient_P-ST-NAME = Absolute Pressure
-ST-Ambient_P-GV0-NAME = Relative Pressure
-ST-Ambient_P-GV1-NAME = Pressure Trend
+ND-pressure-NAME = Barometric Pressures
+ND-pressure-ICON = Input
+ST-139P-ST-NAME = Absolute Pressure
+ST-139P-GV0-NAME = Relative Pressure
+ST-139P-GV1-NAME = Pressure Trend
 
 ND-wind-NAME = Wind
-ST-Ambient_W-ST-NAME = Wind Speed
-ST-Ambient_W-GV0-NAME = Wind Direction
-ST-Ambient_W-GV1-NAME = Gust Speed
-ST-Ambient_W-GV2-NAME = Gust Direction
+ND-wind-ICON = Input
+ST-139W-ST-NAME = Wind Speeds
+ST-139W-GV0-NAME = Wind Direction
+ST-139W-GV1-NAME = Gust Speed
+ST-139W-GV2-NAME = Gust Direction
 
-ND-rain-NAME = Rainfall
-ST-Ambient_R-ST-NAME = Rain Rate
-ST-Ambient_R-GV0-NAME = Hourly Rainfall
-ST-Ambient_R-GV1-NAME = Daily Rainfall
-ST-Ambient_R-GV2-NAME = Weekly Rainfall
-ST-Ambient_R-GV3-NAME = Monthly Rainfall
-ST-Ambient_R-GV4-NAME = Yearly Rainfall
+ND-precipitation-NAME = Rainfall
+ND-precipitation-ICON = Input
+ST-139R-ST-NAME = Rain Rate
+ST-139R-GV0-NAME = Hourly Rainfall
+ST-139R-GV1-NAME = Daily Rainfall
+ST-139R-GV2-NAME = Weekly Rainfall
+ST-139R-GV3-NAME = Monthly Rainfall
+ST-139R-GV4-NAME = Yearly Rainfall
 
 ND-light-NAME = Light
-ST-Ambient_L-ST-NAME = UV Index
-ST-Ambient_L-GV0-NAME = Solar Radiation
-ST-Ambient_L-GV1-NAME = Illumination
+ND-light-ICON = Input
+ST-139L-ST-NAME = UV Index
+ST-139L-GV0-NAME = Solar Radiation
+ST-139L-GV1-NAME = Illumination
 
 EN_RAINTYPE-0 = None
 EN_RAINTYPE-1 = Rain
