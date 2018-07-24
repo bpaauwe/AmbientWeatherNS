@@ -260,13 +260,16 @@ class Controller(polyinterface.Controller):
 	reporting status through Polyglot to ISY, DO NOT remove them. UOM 2
 	is boolean.
 	"""
-	id = 'controller'
+	id = 'Ambient'
 	commands = {
 		'DISCOVER': discover,
 		'UPDATE_PROFILE': update_profile,
 		'REMOVE_NOTICES_ALL': remove_notices_all
 	}
-	drivers = [{'driver': 'ST', 'value': 0, 'uom': 2}]
+	drivers = [
+			{'driver': 'ST', 'value': 0, 'uom': 2},
+			{'driver': 'BATLVL', 'value': 0, 'uom': 72}  # battery level
+			]
 
 
 class TemperatureNode(polyinterface.Node):
