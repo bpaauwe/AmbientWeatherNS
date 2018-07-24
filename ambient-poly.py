@@ -117,7 +117,8 @@ class Controller(polyinterface.Controller):
 		# how to limit this to one entry?
 		path_str = "/v1/devices/" + self.mac_address + "?apiKey="
 		path_str += self.api_key 
-		path_str += "&applicationKey=7277ba04a32148398a3a633b8db4fd7a6d3ead3aac614518a861e4620cf1662b" 
+
+		path_str += "&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037"
 		path_str += "&limit=1"
 		LOGGER.info(path_str)
 
