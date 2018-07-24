@@ -130,11 +130,22 @@ class Controller(polyinterface.Controller):
 		c.close()
 
 		# deserialize data into an object?
+		#
+		# TODO: The try prevents us for erroring out if somethings wrong
+		# but it also aborts processing on the first issue. Do we really
+		# need nested try exception processing?
 		try:
 			#LOGGER.info(data)
 			awdata = json.loads(data)
 			LOGGER.info(awdata[0])
 			d = awdata[0]
+
+			# TODO: calculate additional data values
+			# pressure trend
+			# heat index
+			# windchill
+			# rain rate
+
 			LOGGER.info(d['tempf'])
 			LOGGER.info(d['baromrelin'])
 			LOGGER.info(d['baromabsin'])
@@ -146,15 +157,49 @@ class Controller(polyinterface.Controller):
 							report = True, force = True)
 					self.nodes[node].setDriver('GV0', d['baromrelin'],
 							report = True, force = True)
-				else if self.nodes[node].id == 'temperature':
+					#self.nodes[node].setDriver('GV1', d['trend'],
+					#		report = True, force = True)
+				elif self.nodes[node].id == 'temperature':
 					self.nodes[node].setDriver('ST', d['tempf'],
 							report = True, force = True)
-					self.nodes[node].setDriver('GV0', d['dewpoint'],
+					self.nodes[node].setDriver('GV0', d['feelsLike'],
 							report = True, force = True)
-				else if self.nodes[node].id == 'humidity':
-				else if self.nodes[node].id == 'wind':
-				else if self.nodes[node].id == 'precipitation':
-				else if self.nodes[node].id == 'light':
+					self.nodes[node].setDriver('GV1', d['dewPoint'],
+							report = True, force = True)
+					#self.nodes[node].setDriver('GV2', d['heatindex'],
+					#		report = True, force = True)
+					#self.nodes[node].setDriver('GV3', d['windchill'],
+					#		report = True, force = True)
+				elif self.nodes[node].id == 'humidity':
+					self.nodes[node].setDriver('ST', d['humidity'],
+							report = True, force = True)
+				elif self.nodes[node].id == 'wind':
+					self.nodes[node].setDriver('ST', d['windspeedmph'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV0', d['winddir'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV1', d['windgustmph'],
+							report = True, force = True)
+					#self.nodes[node].setDriver('GV2', d['windgustdir'],
+					#		report = True, force = True)
+				elif self.nodes[node].id == 'precipitation':
+					#self.nodes[node].setDriver('ST', d['rainrate'],
+					#		report = True, force = True)
+					self.nodes[node].setDriver('GV0', d['hourlyrainin'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV1', d['dailyrainin'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV2', d['weeklyrainin'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV3', d['monthlyrainin'],
+							report = True, force = True)
+					self.nodes[node].setDriver('GV4', d['yearlyrainin'],
+							report = True, force = True)
+				elif self.nodes[node].id == 'light':
+					self.nodes[node].setDriver('ST', d['uv'],
+							report = True, force = True)
+					#self.nodes[node].setDriver('GV0', d['solarradiation'],
+					#		report = True, force = True)
 
 		except (ValueError, KeyError, TypeError):
 			LOGGER.error('Failed to decode data from ambientweather.net')
