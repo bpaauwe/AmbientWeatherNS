@@ -1,7 +1,7 @@
 {
     "name": "AmbientPoly",
     "docs": "https://github.com/bpaauwe/AmbientPoly",
-    "type": "python",
+    "type": "python3",
     "executable": "ambient-poly.py",
     "install": "install.sh",
     "description": "Ambient Weather Station",
