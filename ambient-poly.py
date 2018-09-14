@@ -65,81 +65,53 @@ class Controller(polyinterface.Controller):
         awdata = json.loads(c.data.decode('utf-8'))
 
         # deserialize data into an object?
-        #
-        # TODO: The try prevents us for erroring out if somethings wrong
-        # but it also aborts processing on the first issue. Do we really
-        # need nested try exception processing?
-        try:
-            #LOGGER.info(data)
-            LOGGER.info(awdata[0])
-            d = awdata[0]
+        LOGGER.info(awdata[0])
+        d = awdata[0]
 
-            # TODO: calculate additional data values
-            # pressure trend
-            # heat index
-            # windchill
-            # rain rate
+        # TODO: calculate additional data values
+        # pressure trend
+        # heat index
+        # windchill
+        # rain rate
 
-            LOGGER.info(d['tempf'])
-            LOGGER.info(d['baromrelin'])
-            LOGGER.info(d['baromabsin'])
-            LOGGER.info(d['winddir'])
-
-            for node in self.nodes:
-                if self.nodes[node].id == 'pressure':
-                    self.nodes[node].setDriver('ST', d['baromabsin'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV0', d['baromrelin'],
-                            report = True, force = True)
-                    #self.nodes[node].setDriver('GV1', d['trend'],
-                    #        report = True, force = True)
-                elif self.nodes[node].id == 'temperature':
-                    self.nodes[node].setDriver('ST', d['tempf'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV0', d['feelsLike'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV1', d['dewPoint'],
-                            report = True, force = True)
-                    #self.nodes[node].setDriver('GV2', d['heatindex'],
-                    #        report = True, force = True)
-                    #self.nodes[node].setDriver('GV3', d['windchill'],
-                    #        report = True, force = True)
-                elif self.nodes[node].id == 'humidity':
-                    self.nodes[node].setDriver('ST', d['humidity'],
-                            report = True, force = True)
-                elif self.nodes[node].id == 'wind':
-                    self.nodes[node].setDriver('ST', d['windspeedmph'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV0', d['winddir'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV1', d['windgustmph'],
-                            report = True, force = True)
-                    #self.nodes[node].setDriver('GV2', d['windgustdir'],
-                    #        report = True, force = True)
-                elif self.nodes[node].id == 'precipitation':
-                    #self.nodes[node].setDriver('ST', d['rainrate'],
-                    #        report = True, force = True)
-                    self.nodes[node].setDriver('GV0', d['hourlyrainin'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV1', d['dailyrainin'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV2', d['weeklyrainin'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV3', d['monthlyrainin'],
-                            report = True, force = True)
-                    self.nodes[node].setDriver('GV4', d['yearlyrainin'],
-                            report = True, force = True)
-                elif self.nodes[node].id == 'light':
-                    self.nodes[node].setDriver('ST', d['uv'],
-                            report = True, force = True)
-                    #self.nodes[node].setDriver('GV0', d['solarradiation'],
-                    #        report = True, force = True)
-
-        except (ValueError, KeyError, TypeError):
-            LOGGER.error('Failed to decode data from ambientweather.net')
+        for node in self.nodes:
+            if self.nodes[node].id == 'pressure':
+                self.set_driver(node, 'ST', d, 'baromabsin')
+                self.set_driver(node, 'GV0', d, 'baromrelin')
+                #self.set_driver(node, 'GV1', d, 'trend')
+            elif self.nodes[node].id == 'temperature':
+                self.set_driver(node, 'ST', d, 'tempf')
+                self.set_driver(node, 'GV0', d, 'feelsLike')
+                self.set_driver(node, 'GV1', d, 'dewPoint')
+                #self.set_driver(node, 'GV2', d, 'heatIndex')
+                #self.set_driver(node, 'GV3', d, 'windchill')
+            elif self.nodes[node].id == 'humidity':
+                self.set_driver(node, 'ST', d, 'humidity')
+            elif self.nodes[node].id == 'wind':
+                self.set_driver(node, 'ST', d, 'windspeedmph')
+                self.set_driver(node, 'GV0', d, 'winddir')
+                self.set_driver(node, 'GV1', d, 'windgustmph')
+                #self.set_driver(node, 'GV2', d, 'windgustdir')
+            elif self.nodes[node].id == 'precipitation':
+                #self.set_driver(node, 'ST', d, 'rainrate')
+                self.set_driver(node, 'GV0', d, 'hourlyrainin')
+                self.set_driver(node, 'GV1', d, 'dailyrainin')
+                self.set_driver(node, 'GV2', d, 'weeklyrainin')
+                self.set_driver(node, 'GV3', d, 'monthlyrainin')
+                self.set_driver(node, 'GV4', d, 'yearlyrainin')
+            elif self.nodes[node].id == 'light':
+                self.set_driver(node, 'ST', d, 'uv')
+                #self.set_driver(node, 'GV0', d, 'solarradiation')
 
         c.close
 
+
+    def set_driver(self, node, driver, data, index):
+        try:
+            self.nodes[node].setDriver(driver, data[index],
+                    report = True, force = True)
+        except (ValueError, KeyError, TypeError):
+            LOGGER.error('Missing data: ' + index)
 
     def query(self):
         for node in self.nodes:
