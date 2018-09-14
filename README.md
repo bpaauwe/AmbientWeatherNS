@@ -56,5 +56,7 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.1 09/14/2018
+   - Fix URL path
 - 0.1.0 09/12/2018
    - Initial version published in the Polyglot node server store

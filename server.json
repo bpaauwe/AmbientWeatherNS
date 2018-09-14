@@ -12,7 +12,7 @@
         {
             "title": "AmbientPoly: a NodeServer for Ambient Weather IP based weather stations",
             "author": "Bob Paauwe",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "date": "July 19, 2018",
             "source": "https://github.com/bpaauwe/AmbientPoly",
             "license": "https://raw.githubusercontent.com/bpaauwe/AmbientPoly/master/LICENSE"
