@@ -46,7 +46,7 @@ class Controller(polyinterface.Controller):
         # we only do it once.
         # how to limit this to one entry?
         path_str = 'http://api.ambientweather.net/'
-        path_str += '/v1/devices/' + self.mac_address + '?apiKey='
+        path_str += 'v1/devices/' + self.mac_address + '?apiKey='
         path_str += self.api_key 
 
         path_str += '&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037'
