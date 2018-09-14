@@ -78,7 +78,9 @@ class Controller(polyinterface.Controller):
             if self.nodes[node].id == 'pressure':
                 self.set_driver(node, 'ST', d, 'baromabsin')
                 self.set_driver(node, 'GV0', d, 'baromrelin')
-                #self.set_driver(node, 'GV1', d, 'trend')
+
+                trend = self.nodes[node].updateTrend(d['baromabsin'])
+                self.nodes[node].setDriver('GV1', trend, report = True, force = True)
             elif self.nodes[node].id == 'temperature':
                 self.set_driver(node, 'ST', d, 'tempf')
                 self.set_driver(node, 'GV0', d, 'feelsLike')
@@ -126,7 +128,7 @@ class Controller(polyinterface.Controller):
         self.addNode(LightNode(self, self.address, 'light', 'Illumination'))
 
     def delete(self):
-        LOGGER.info('Oh God I\'m being deleted. Nooooooooooooooooooooooooooooooooooooooooo.')
+        LOGGER.info('Deleting the Ambient Weather node server.')
 
     def stop(self):
         LOGGER.debug('NodeServer stopped.')
@@ -198,6 +200,25 @@ class PressureNode(polyinterface.Node):
             {'driver': 'GV0', 'value': 0, 'uom': 23}, # rel press
             {'driver': 'GV1', 'value': 0, 'uom': 25}  # trend
             ]
+    mytrend = []
+
+    def updateTrend(self, current):
+        t = 0
+        past = 0
+
+        if (len(self.mytrend) == 180):
+            past = self.mytrend.pop()
+        if self.mytrend != []:
+            past = self.mytrend[0]
+
+        # calculate trend
+        if (past - current) > 0.01:
+            t = -1
+        elif (past - current) < 0.01:
+            t = 1
+
+        self.mytrend.insert(0, current)
+        return t
 
 class WindNode(polyinterface.Node):
     id = 'wind'
