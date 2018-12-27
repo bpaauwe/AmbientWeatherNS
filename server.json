@@ -4,6 +4,7 @@
     "type": "python3",
     "executable": "ambient-poly.py",
     "install": "install.sh",
+    "install_cloud": "install_cloud.sh",
     "description": "Ambient Weather Station",
     "notice": "Your disclaimer here",
     "shortPoll": "5",
