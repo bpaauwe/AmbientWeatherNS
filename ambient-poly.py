@@ -6,8 +6,7 @@ Copyright (c) 2018 Robert Paauwe
 import polyinterface
 import sys
 import time
-#import httplib
-import urllib3
+import requests
 import json
 
 LOGGER = polyinterface.LOGGER
@@ -36,49 +35,66 @@ class Controller(polyinterface.Controller):
         States that data is updated every 5 or 30 minutes (so which is it?)
         """
         LOGGER.info('Connecting to Ambient Weather server')
-        LOGGER.info(self.api_key)
-        LOGGER.info(self.mac_address)
-
-        http = urllib3.PoolManager()
-        #c = httplib.HTTPSConnection("api.ambientweather.net")
+        # #LOGGER.info(self.api_key)
+        # #LOGGER.info(self.mac_address)
 
         # TODO: Make the path as part of the config procesing so that
         # we only do it once.
         # how to limit this to one entry?
-        path_str = 'http://api.ambientweather.net/'
-        path_str += 'v1/devices/' + self.mac_address + '?apiKey='
-        path_str += self.api_key 
+        # TODO: May want to make the app key user provided?
+        awAPI = 'https://api.ambientweather.net/'
+        awAPI += 'v1/devices/' + self.mac_address + '?apiKey=' + self.api_key
+        awAPI += '&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037'
+        awAPI += '&limit=1'
+        #LOGGER.info(awAPI)
 
-        path_str += '&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037'
-        path_str += '&limit=1'
-        LOGGER.info(path_str)
-
-        c = http.request('GET', path_str)
-        #c.request("GET", path_str)
-
-        #response = c.getresponse()
-        #response = c.data
-        #print response.status, response.reason
-        print (c.status, c.reason)
-        #data = response.read()
-        #c.close()
-        awdata = json.loads(c.data.decode('utf-8'))
-
-        # deserialize data into an object?
-        LOGGER.info(awdata[0])
+        r = requests.get(awAPI)
+        #LOGGER.info(r.json())
+        awdata = r.json()
         d = awdata[0]
 
-        # TODO: calculate additional data values
-        # pressure trend
-        # heat index
-        # windchill
-        # rain rate
+        '''
+        Added check for add-on sensors.
+        If they exist in Ambient Weather then
+        add nodes for them to be updated on next poll
+        '''
+        for k,v in d.items():
+            if k == 'temp1f':
+                if 'sensor01' not in self.nodes:
+                    self.addNode(Sensor01Node(self, self.address, 'sensor01', 'Sensor 01'))
+            elif k == 'temp2f':
+                if 'sensor02' not in self.nodes:
+                    self.addNode(Sensor02Node(self, self.address, 'sensor02', 'Sensor 02'))
+            elif k == 'temp3f':
+                if 'sensor03' not in self.nodes:
+                    self.addNode(Sensor03Node(self, self.address, 'sensor03', 'Sensor 03'))
+            elif k == 'temp4f':
+                if 'sensor04' not in self.nodes:
+                    self.addNode(Sensor04Node(self, self.address, 'sensor04', 'Sensor 04'))
+            elif k == 'temp5f':
+                if 'sensor05' not in self.nodes:
+                    self.addNode(Sensor05Node(self, self.address, 'sensor05', 'Sensor 05'))
+            elif k == 'temp6f':
+                if 'sensor06' not in self.nodes:
+                    self.addNode(Sensor06Node(self, self.address, 'sensor06', 'Sensor 06'))
+            elif k == 'temp7f':
+                if 'sensor07' not in self.nodes:
+                    self.addNode(Sensor07Node(self, self.address, 'sensor07', 'Sensor 07'))
+            elif k == 'temp8f':
+                if 'sensor08' not in self.nodes:
+                    self.addNode(Sensor08Node(self, self.address, 'sensor08', 'Sensor 08'))
 
+        '''
+        TODO: calculate additional data values
+        pressure trend
+        heat index
+        windchill
+        rain rate
+        '''
         for node in self.nodes:
             if self.nodes[node].id == 'pressure':
                 self.set_driver(node, 'ST', d, 'baromabsin')
                 self.set_driver(node, 'GV0', d, 'baromrelin')
-
                 trend = self.nodes[node].updateTrend(d['baromabsin'])
                 self.nodes[node].setDriver('GV1', trend, report = True, force = True)
             elif self.nodes[node].id == 'temperature':
@@ -102,12 +118,35 @@ class Controller(polyinterface.Controller):
                 self.set_driver(node, 'GV3', d, 'monthlyrainin')
                 self.set_driver(node, 'GV4', d, 'yearlyrainin')
             elif self.nodes[node].id == 'light':
-                self.set_driver(node, 'ST', d, 'uv')
+                self.set_driver(node, 'ST', d, 'uv')            
                 #self.set_driver(node, 'GV0', d, 'solarradiation')
 
-        c.close
-
-
+            # Adding updates for add-on sensors            
+            elif self.nodes[node].id == 'sensor01':
+                self.set_driver(node, 'ST', d, 'temp1f')
+                self.set_driver(node, 'GV0', d, 'humidity1')
+            elif self.nodes[node].id == 'sensor02':
+                self.set_driver(node, 'ST', d, 'temp2f')
+                self.set_driver(node, 'GV0', d, 'humidity2')
+            elif self.nodes[node].id == 'sensor03':
+                self.set_driver(node, 'ST', d, 'temp3f')
+                self.set_driver(node, 'GV0', d, 'humidity3')
+            elif self.nodes[node].id == 'sensor04':
+                self.set_driver(node, 'ST', d, 'temp4f')
+                self.set_driver(node, 'GV0', d, 'humidity4')
+            elif self.nodes[node].id == 'sensor05':
+                self.set_driver(node, 'ST', d, 'temp5f')
+                self.set_driver(node, 'GV0', d, 'humidity5')
+            elif self.nodes[node].id == 'sensor06':
+                self.set_driver(node, 'ST', d, 'temp6f')
+                self.set_driver(node, 'GV0', d, 'humidity6')
+            elif self.nodes[node].id == 'sensor07':
+                self.set_driver(node, 'ST', d, 'temp7f')
+                self.set_driver(node, 'GV0', d, 'humidity7')
+            elif self.nodes[node].id == 'sensor08':
+                self.set_driver(node, 'ST', d, 'temp8f')
+                self.set_driver(node, 'GV0', d, 'humidity8')
+            
     def set_driver(self, node, driver, data, index):
         try:
             self.nodes[node].setDriver(driver, data[index],
@@ -120,12 +159,16 @@ class Controller(polyinterface.Controller):
             self.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
+        '''
+        TODO: Maybe Make these discovered and not created by default
+        to support non PWS Ambient Weather consoles?
+        '''
         self.addNode(TemperatureNode(self, self.address, 'temperature', 'Temperatures'))
         self.addNode(HumidityNode(self, self.address, 'humidity', 'Humidity'))
         self.addNode(PressureNode(self, self.address, 'pressure', 'Barometric Pressure'))
         self.addNode(WindNode(self, self.address, 'wind', 'Wind'))
         self.addNode(PrecipitationNode(self, self.address, 'rain', 'Precipitation'))
-        self.addNode(LightNode(self, self.address, 'light', 'Illumination'))
+        self.addNode(LightNode(self, self.address, 'light', 'Illumination'))    
 
     def delete(self):
         LOGGER.info('Deleting the Ambient Weather node server.')
@@ -247,6 +290,54 @@ class LightNode(polyinterface.Node):
             {'driver': 'GV0', 'value': 0, 'uom': 74},  # solar radiation
             {'driver': 'GV1', 'value': 0, 'uom': 36},  # Lux
             ]
+
+class Sensor01Node(polyinterface.Node):
+    id = 'sensor01'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor02Node(polyinterface.Node):
+    id = 'sensor02'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor03Node(polyinterface.Node):
+    id = 'sensor03'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor04Node(polyinterface.Node):
+    id = 'sensor04'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor05Node(polyinterface.Node):
+    id = 'sensor05'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor06Node(polyinterface.Node):
+    id = 'sensor06'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor07Node(polyinterface.Node):
+    id = 'sensor07'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
+
+class Sensor08Node(polyinterface.Node):
+    id = 'sensor08'
+    drivers = [
+        {'driver': 'ST', 'value': 0, 'uom': 17},
+        {'driver': 'GV0', 'value': 0, 'uom': 22}]
 
 if __name__ == "__main__":
     try:

@@ -56,6 +56,70 @@
         </sts>
     </nodeDef>
 
+    <nodeDef id="sensor01" nodeType="139" nls="139S1">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+    
+    <nodeDef id="sensor02" nodeType="139" nls="139S2">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor03" nodeType="139" nls="139S3">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor04" nodeType="139" nls="139S4">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor05" nodeType="139" nls="139S5">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor06" nodeType="139" nls="139S6">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor07" nodeType="139" nls="139S7">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
+    <nodeDef id="sensor08" nodeType="139" nls="139S8">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP_F" />
+            <st id="GV0" editor="I_HUMIDITY" />
+        </sts>
+    </nodeDef>
+
     <nodeDef id="pressure" nodeType="139" nls="139P">
         <editors />
         <sts>
