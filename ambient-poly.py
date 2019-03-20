@@ -174,7 +174,7 @@ class Controller(polyinterface.Controller):
         'REMOVE_NOTICES_ALL': remove_notices_all
     }
     drivers = [
-            {'driver': 'ST', 'value': 0, 'uom': 2},
+            {'driver': 'ST', 'value': 1, 'uom': 2},
             {'driver': 'BATLVL', 'value': 0, 'uom': 72}  # battery level
             ]
 
