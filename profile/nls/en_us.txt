@@ -20,6 +20,39 @@ ST-139T-GV1-NAME = DewPoint
 ST-139T-GV2-NAME = Heat Index
 ST-139T-GV3-NAME = Windchill
 
+ND-sensor01-NAME = Sensor01
+ST-139S1-ST-NAME = Temperature
+ST-139S1-GV0-NAME = Humidity
+
+ND-sensor02-NAME = Sensor02
+ST-139S2-ST-NAME = Temperature
+ST-139S2-GV0-NAME = Humidity
+
+ND-sensor03-NAME = Sensor03
+ST-139S3-ST-NAME = Temperature
+ST-139S3-GV0-NAME = Humidity
+
+ND-sensor04-NAME = Sensor04
+ST-139S4-ST-NAME = Temperature
+ST-139S4-GV0-NAME = Humidity
+
+ND-sensor05-NAME = Sensor05
+ST-139S5-ST-NAME = Temperature
+ST-139S5-GV0-NAME = Humidity
+
+ND-sensor06-NAME = Sensor06
+ST-139S6-ST-NAME = Temperature
+ST-139S6-GV0-NAME = Humidity
+
+ND-sensor07-NAME = Sensor07
+ST-139S7-ST-NAME = Temperature
+ST-139S7-GV0-NAME = Humidity
+
+ND-sensor08-NAME = Sensor08
+ST-139S8-ST-NAME = Temperature
+ST-139S8-GV0-NAME = Humidity
+
+
 ND-humidity-NAME = Humidity
 ND-humidity-ICON = Input
 ST-139H-ST-NAME = Humidity
