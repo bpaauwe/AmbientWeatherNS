@@ -56,6 +56,8 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.3 10/21/2019
+   - Use correct module import for polyglot cloud.
 - 0.1.2 03/20/2019
    - Fix online status going false after query.
 - 0.1.1 09/14/2018
