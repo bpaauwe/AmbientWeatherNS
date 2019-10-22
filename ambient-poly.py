@@ -11,8 +11,8 @@ except ImportError:
     CLOUD = True
 import sys
 import time
-#import httplib
-import urllib3
+#import urllib3
+import requests
 import json
 
 LOGGER = polyinterface.LOGGER
@@ -24,7 +24,7 @@ class Controller(polyinterface.Controller):
         super(Controller, self).__init__(polyglot)
 
         self.name = 'AmbientWeather'
-        self.address = 'ambient'
+        self.address = 'ambient1'
         self.primary = self.address
         self.api_key = ''
         self.mac_address = ''
@@ -69,6 +69,7 @@ class Controller(polyinterface.Controller):
         LOGGER.info('Started Ambient Weather Node Server')
         self.check_params()
         self.discover()
+        LOGGER.info('finished with start functions')
 
     def shortPoll(self):
         pass
@@ -105,16 +106,12 @@ class Controller(polyinterface.Controller):
         path_str += '&limit=1'
         LOGGER.info(path_str)
 
-        c = http.request('GET', path_str)
-        #c.request("GET", path_str)
+        c = requests.get(path_str)
+        awdata = c.json()
 
-        #response = c.getresponse()
-        #response = c.data
-        #print response.status, response.reason
-        print (c.status, c.reason)
-        #data = response.read()
-        #c.close()
-        awdata = json.loads(c.data.decode('utf-8'))
+        #c = http.request('GET', path_str)
+        #print (c.status, c.reason)
+        #awdata = json.loads(c.data.decode('utf-8'))
 
         # deserialize data into an object?
         LOGGER.info(awdata[0])
@@ -157,7 +154,7 @@ class Controller(polyinterface.Controller):
                 self.set_driver(node, 'ST', d, 'uv')
                 #self.set_driver(node, 'GV0', d, 'solarradiation')
 
-        c.close
+        #c.close
 
 
     def set_driver(self, node, driver, data, index):
@@ -172,6 +169,7 @@ class Controller(polyinterface.Controller):
             self.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
+        LOGGER.info('Adding child nodes')
         self.addNode(TemperatureNode(self, self.address, 'temperature', 'Temperatures'))
         self.addNode(HumidityNode(self, self.address, 'humidity', 'Humidity'))
         self.addNode(PressureNode(self, self.address, 'pressure', 'Barometric Pressure'))
@@ -212,10 +210,6 @@ class Controller(polyinterface.Controller):
         if self.mac_address == "" or self.api_key == "":
             self.addNotice({'config': 'Please add customParams for APIKey and macAddress on the configuration page, and restart this nodeserver'})
 
-        LOGGER.debug('dumping customParam:')
-        LOGGER.debug(self.getCustomParam(""))
-        LOGGER.debug('dumping customParams:')
-        LOGGER.debug(self.getCustomParams(""))
 
     def remove_notices_all(self,command):
         LOGGER.info('remove_notices_all:')
