@@ -34,7 +34,7 @@ class Controller(polyinterface.Controller):
 
     def process_config(self, config):
         if 'customParams' in config:
-            LOGGER.debug('Incoming config = {}'.format.config['customParams'])
+            LOGGER.debug('Incoming config = {}'.format(config['customParams']))
             if config['customParams'] != self.myConfig:
                 changed_key = False
                 changed_address = False
