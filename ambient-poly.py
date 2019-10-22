@@ -23,7 +23,7 @@ class Controller(polyinterface.Controller):
     def __init__(self, polyglot):
         super(Controller, self).__init__(polyglot)
 
-        self.name = 'Ambient Weather'
+        self.name = 'AmbientWeather'
         self.address = 'ambient'
         self.primary = self.address
         self.api_key = ''
