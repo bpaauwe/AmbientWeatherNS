@@ -51,6 +51,9 @@ class Controller(polyinterface.Controller):
                     self.api_key = config['customParams']['APIKey']
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
+            LOGGER.info(' APIKey  = ' + self.api_key)
+            LOGGER.info(' Address = ' + self.mac_address)
+            LOGGER.info(config)
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
