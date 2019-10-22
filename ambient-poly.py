@@ -18,6 +18,8 @@ import json
 LOGGER = polyinterface.LOGGER
 
 class Controller(polyinterface.Controller):
+    id = 'Ambient'
+
     def __init__(self, polyglot):
         super(Controller, self).__init__(polyglot)
 
@@ -27,6 +29,9 @@ class Controller(polyinterface.Controller):
         self.api_key = ''
         self.mac_address = ''
         self.myConfig = {}
+
+        slef.poly.onConfig(self.process_config)
+        LOGGER.info('Finished controller init.')
 
     def process_config(self, config):
         if 'customParams' in config:
@@ -212,7 +217,6 @@ class Controller(polyinterface.Controller):
         st = self.poly.installprofile()
         return st
 
-    id = 'Ambient'
     commands = {
         'DISCOVER': discover,
         'UPDATE_PROFILE': update_profile,
@@ -296,23 +300,8 @@ class LightNode(polyinterface.Node):
 if __name__ == "__main__":
     try:
         polyglot = polyinterface.Interface('AmbientWeather')
-        """
-        Instantiates the Interface to Polyglot.
-        """
         polyglot.start()
-        """
-        Starts MQTT and connects to Polyglot.
-        """
         control = Controller(polyglot)
-        """
-        Creates the Controller Node and passes in the Interface
-        """
         control.runForever()
-        """
-        Sits around and does nothing forever, keeping your program running.
-        """
     except (KeyboardInterrupt, SystemExit):
         sys.exit(0)
-        """
-        Catch SIGTERM or Control-C and exit cleanly.
-        """
