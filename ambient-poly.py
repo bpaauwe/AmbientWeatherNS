@@ -36,26 +36,30 @@ class Controller(polyinterface.Controller):
     def process_config(self, config):
         if 'customParams' in config:
             if config['customParams'] != self.myConfig:
-                changed = False
+                changed_key = False
+                changed_address = False
                 if 'APIKey' in self.myConfig:
                     if self.myConfig['APIKey'] != config['customParams']['APIKey']:
-                        changed = True
+                        changed_key = True
                 elif 'APIKey' in config['customParams']:
                     if config['customParams']['APIKey'] != "":
-                        changed = True
+                        changed_key = True
 
                 if 'macAddress' in self.myConfig:
                     if self.myConfig['macAddress'] != config['customParams']['macAddress']:
-                        changed = True
+                        changed_address = True
                 elif 'macAddress' in config['customParams']:
                     if config['customParams']['macAddress'] != "":
-                        changed = True
+                        changed_address = True
 
                 self.myConfig = config['customParams']
-                if changed:
+                if changed_key:
                     self.api_key = config['customParams']['APIKey']
+                    self.removeNoticesAll()
+                if changed_address:
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
+
             LOGGER.info(' APIKey  = ' + self.api_key)
             LOGGER.info(' Address = ' + self.mac_address)
             LOGGER.info(config)
