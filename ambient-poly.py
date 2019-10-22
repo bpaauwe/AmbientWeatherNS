@@ -39,9 +39,17 @@ class Controller(polyinterface.Controller):
                     if config['customParams']['APIKey'] != "":
                         changed = True
 
+                if 'macAddress' in self.myConfig:
+                    if self.myConfig['macAddress'] != config['customParams']['macAddress']:
+                        changed = True
+                elif 'macAddress' in config['customParams']:
+                    if config['customParams']['macAddress'] != "":
+                        changed = True
+
                 self.myConfig = config['customParams']
                 if changed:
-                    self.APIKey = config['customParams']['APIKey']
+                    self.api_key = config['customParams']['APIKey']
+                    self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
     def start(self):
@@ -169,18 +177,21 @@ class Controller(polyinterface.Controller):
             self.mac_address = self.polyConfig['customParams']['macAddress']
         else:
             self.mac_address = ""
-            LOGGER.error('check_params: mac address not defined in customParams, please add it.  Using {}'.format(self.mac_address))
+            LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
             st = False
 
         if 'APIKey' in self.polyConfig['customParams']:
             self.api_key = self.polyConfig['customParams']['APIKey']
         else:
             self.api_key = ""
-            LOGGER.error('check_params: API Key not defined in customParams, please add it.  Using {}'.format(self.api_key))
+            LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
             st = False
 
         # Make sure they are in the params
-        self.addCustomParam({'APIKey': self.api_key, 'macAddress': self.mac_address})
+        self.addCustomParam({
+            'APIKey': self.api_key,
+            'macAddress': self.mac_address
+            })
 
         # Remove all existing notices
         self.removeNoticesAll()
