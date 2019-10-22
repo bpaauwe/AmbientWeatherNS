@@ -26,6 +26,23 @@ class Controller(polyinterface.Controller):
         self.primary = self.address
         self.api_key = ''
         self.mac_address = ''
+        self.myConfig = {}
+
+    def process_config(self, config):
+        if 'customParams' in config:
+            if config['customParams'] != self.myConfig:
+                changed = False
+                if 'APIKey' in self.myConfig:
+                    if self.myConfig['APIKey'] != config['customParams']['APIKey']:
+                        changed = True
+                elif 'APIKey' in config['customParams']:
+                    if config['customParams']['APIKey'] != "":
+                        changed = True
+
+                self.myConfig = config['customParams']
+                if changed:
+                    self.APIKey = config['customParams']['APIKey']
+                    self.removeNoticesAll()
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
@@ -45,6 +62,8 @@ class Controller(polyinterface.Controller):
 
         if self.api_key == '' or self.mac_address == '':
             LOGGER.info('Waiting to be configured.')
+            LOGGER.info('   key = ' + self.api_key)
+            LOGGER.info('   mac = ' + self.mac_address)
             return
 
         LOGGER.info('Connecting to Ambient Weather server')
