@@ -11,7 +11,6 @@ except ImportError:
     CLOUD = True
 import sys
 import time
-#import urllib3
 import requests
 import json
 
@@ -24,7 +23,7 @@ class Controller(polyinterface.Controller):
         super(Controller, self).__init__(polyglot)
 
         self.name = 'AmbientWeather'
-        self.address = 'ambient1'
+        self.address = 'ambient'
         self.primary = self.address
         self.api_key = ''
         self.mac_address = ''
@@ -35,7 +34,7 @@ class Controller(polyinterface.Controller):
 
     def process_config(self, config):
         if 'customParams' in config:
-            LOGGER.debug(config)
+            LOGGER.debug('Incoming config = {}'.format.config['customParams'])
             if config['customParams'] != self.myConfig:
                 changed_key = False
                 changed_address = False
@@ -92,9 +91,6 @@ class Controller(polyinterface.Controller):
         LOGGER.info(self.api_key)
         LOGGER.info(self.mac_address)
 
-        http = urllib3.PoolManager()
-        #c = httplib.HTTPSConnection("api.ambientweather.net")
-
         # TODO: Make the path as part of the config procesing so that
         # we only do it once.
         # how to limit this to one entry?
@@ -108,10 +104,6 @@ class Controller(polyinterface.Controller):
 
         c = requests.get(path_str)
         awdata = c.json()
-
-        #c = http.request('GET', path_str)
-        #print (c.status, c.reason)
-        #awdata = json.loads(c.data.decode('utf-8'))
 
         # deserialize data into an object?
         LOGGER.info(awdata[0])
@@ -153,8 +145,6 @@ class Controller(polyinterface.Controller):
             elif self.nodes[node].id == 'light':
                 self.set_driver(node, 'ST', d, 'uv')
                 #self.set_driver(node, 'GV0', d, 'solarradiation')
-
-        #c.close
 
 
     def set_driver(self, node, driver, data, index):
