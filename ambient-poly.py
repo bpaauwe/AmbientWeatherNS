@@ -212,6 +212,11 @@ class Controller(polyinterface.Controller):
         if self.mac_address == "" or self.api_key == "":
             self.addNotice({'config': 'Please add customParams for APIKey and macAddress on the configuration page, and restart this nodeserver'})
 
+        LOGGER.debug('dumping customParam:')
+        LOGGER.debug(getCustomParam(""))
+        LOGGER.debug('dumping customParams:')
+        LOGGER.debug(getCustomParams(""))
+
     def remove_notices_all(self,command):
         LOGGER.info('remove_notices_all:')
         # Remove all existing notices
