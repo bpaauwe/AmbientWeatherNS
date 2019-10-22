@@ -167,7 +167,7 @@ class Controller(polyinterface.Controller):
         self.removeNoticesAll()
         # Add a notice if they need to change the user/password from the default.
         if self.mac_address == "" or self.api_key == "":
-            self.addNotice('config', "Please add customParams for APIKey and macAddress on the configuration page, and restart this nodeserver")
+            self.addNotice({'config': 'Please add customParams for APIKey and macAddress on the configuration page, and restart this nodeserver'})
 
     def remove_notices_all(self,command):
         LOGGER.info('remove_notices_all:')
