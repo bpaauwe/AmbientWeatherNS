@@ -24,6 +24,8 @@ class Controller(polyinterface.Controller):
         self.name = 'Ambient Weather'
         self.address = 'ambient'
         self.primary = self.address
+        self.api_key = ''
+        self.mac_address = ''
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
@@ -40,6 +42,11 @@ class Controller(polyinterface.Controller):
         https://api.ambientweather.net/v1/devices/macAddress?apiKey=&applicationKey
         States that data is updated every 5 or 30 minutes (so which is it?)
         """
+
+        if self.api_key == '' or self.mac_address == '':
+            LOGGER.info('Waiting to be configured.')
+            return
+
         LOGGER.info('Connecting to Ambient Weather server')
         LOGGER.info(self.api_key)
         LOGGER.info(self.mac_address)
