@@ -30,7 +30,7 @@ class Controller(polyinterface.Controller):
         self.mac_address = ''
         self.myConfig = {}
 
-        slef.poly.onConfig(self.process_config)
+        self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
 
     def process_config(self, config):
