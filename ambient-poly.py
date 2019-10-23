@@ -106,8 +106,12 @@ class Controller(polyinterface.Controller):
         awdata = c.json()
 
         # deserialize data into an object?
-        LOGGER.info(awdata[0])
-        d = awdata[0]
+        try:
+            LOGGER.info(awdata[0])
+            d = awdata[0]
+        except:
+            LOGGER.error('Failed to get data from server: ' + str(awdata))
+            return
 
         # TODO: calculate additional data values
         # pressure trend
