@@ -61,10 +61,10 @@ class Controller(polyinterface.Controller):
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
-        if self.mac_address == "":
-            self.AddNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
-        if self.api_key == "":
-            self.AddNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
+            if self.mac_address == "":
+                self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+            if self.api_key == "":
+                self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
@@ -198,9 +198,9 @@ class Controller(polyinterface.Controller):
         self.removeNoticesAll()
         # Add a notice if they need to change the user/password from the default.
         if self.mac_address == "":
-            self.AddNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+            self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
         if self.api_key == "":
-            self.AddNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
+            self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
 
     def remove_notices_all(self,command):
