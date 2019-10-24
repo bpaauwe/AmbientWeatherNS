@@ -193,6 +193,10 @@ class Controller(polyinterface.Controller):
             'APIKey': self.api_key,
             'macAddress': self.mac_address
             })
+        self.saveCustomParams({
+            'APIKey': self.api_key,
+            'macAddress': self.mac_address
+            })
 
         # Remove all existing notices
         self.removeNoticesAll()
