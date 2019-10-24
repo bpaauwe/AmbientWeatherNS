@@ -61,11 +61,6 @@ class Controller(polyinterface.Controller):
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
-            if self.mac_address == "":
-                self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
-            if self.api_key == "":
-                self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
-
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
         self.check_params()
