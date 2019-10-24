@@ -28,6 +28,7 @@ class Controller(polyinterface.Controller):
         self.api_key = ''
         self.mac_address = ''
         self.myConfig = {}
+        self.url_str = 'http://api.ambientweather.net/v1/devices/'
 
         self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
@@ -60,15 +61,15 @@ class Controller(polyinterface.Controller):
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
-            LOGGER.info(' APIKey  = ' + self.api_key)
-            LOGGER.info(' Address = ' + self.mac_address)
-            LOGGER.info(config)
+        if self.mac_address == "":
+            self.AddNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+        if self.api_key == "":
+            self.AddNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
         self.check_params()
         self.discover()
-        LOGGER.info('finished with start functions')
 
     def shortPoll(self):
         pass
@@ -88,16 +89,12 @@ class Controller(polyinterface.Controller):
             return
 
         LOGGER.info('Connecting to Ambient Weather server')
-        LOGGER.info(self.api_key)
-        LOGGER.info(self.mac_address)
 
         # TODO: Make the path as part of the config procesing so that
         # we only do it once.
         # how to limit this to one entry?
-        path_str = 'http://api.ambientweather.net/'
-        path_str += 'v1/devices/' + self.mac_address + '?apiKey='
-        path_str += self.api_key 
-
+        path_str = self.url_str + self.mac_address
+        path_str += '?apiKey=' + self.api_key 
         path_str += '&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037'
         path_str += '&limit=1'
         LOGGER.info(path_str)
@@ -163,7 +160,6 @@ class Controller(polyinterface.Controller):
             self.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
-        LOGGER.info('Adding child nodes')
         self.addNode(TemperatureNode(self, self.address, 'temperature', 'Temperatures'))
         self.addNode(HumidityNode(self, self.address, 'humidity', 'Humidity'))
         self.addNode(PressureNode(self, self.address, 'pressure', 'Barometric Pressure'))
@@ -201,8 +197,10 @@ class Controller(polyinterface.Controller):
         # Remove all existing notices
         self.removeNoticesAll()
         # Add a notice if they need to change the user/password from the default.
-        if self.mac_address == "" or self.api_key == "":
-            self.addNotice({'config': 'Please add customParams for APIKey and macAddress on the configuration page, and restart this nodeserver'})
+        if self.mac_address == "":
+            self.AddNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+        if self.api_key == "":
+            self.AddNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
 
     def remove_notices_all(self,command):
