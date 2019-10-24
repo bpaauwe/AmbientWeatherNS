@@ -25,12 +25,12 @@ I don't have an Ambient Weather station and am currently unable to do additional
 The settings for this node are:
 
 #### Short Poll
-   * This is how often it will update the last update time for each node.
+   * Not used.
 #### Long Poll
    * How often the node server will poll the Ambient Weather servers for data.
-#### Mac Address
+#### Mac Address (key = macAddress)
    * The mac address of the station you want to monitor.
-#### API Key
+#### API Key (key = APIKey)
    * Your Ambient Weather account API Key. This authorizes the node server to access your weather data.
 
 
@@ -56,6 +56,8 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.4 10/24/2019
+   - Improve notices and custom parameter handling.
 - 0.1.3 10/21/2019
    - Use correct module import for polyglot cloud.
 - 0.1.2 03/20/2019
