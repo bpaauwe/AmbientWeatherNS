@@ -73,10 +73,10 @@ class Controller(polyinterface.Controller):
                 notices = {}
                 self.configured = True
                 if self.mac_address == self.default:
-                    notices['macaddress'] = 'Please set your station macAddress'
+                    notices['mac'] = 'Please set your station macAddress (1)'
                     self.configured = False
                 if self.api_key == self.default:
-                    notices['apikey'] = 'Please set APIKey to your Ambient API Key'
+                    notices['key'] = 'Please set APIKey to your Ambient API Key (1)'
                     self.configured = False
 
                 self.addNotice(notices)
