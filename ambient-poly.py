@@ -88,7 +88,7 @@ class Controller(polyinterface.Controller):
         States that data is updated every 5 or 30 minutes (so which is it?)
         """
 
-        if !self.configured:
+        if self.configured == False:
             LOGGER.info('Waiting to be configured.')
             LOGGER.info('   key = ' + self.api_key)
             LOGGER.info('   mac = ' + self.mac_address)
