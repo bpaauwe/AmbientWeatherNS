@@ -35,6 +35,7 @@ class Controller(polyinterface.Controller):
         self.default = '<your value here>'
         self.configured = False
         self.started = False
+        self.first_poll = True
 
         self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
@@ -68,7 +69,10 @@ class Controller(polyinterface.Controller):
                 
             if changed:
                 LOGGER.debug('Configuration change detected.')
-                # Update notices
+                # Update notices.  Make sure we restrict setting notices
+                # to only when something was updated. Otherwise we can
+                # end up with an infinite loop as setting a notice will
+                # trigger a configuration change.
                 self.removeNoticesAll()
                 notices = {}
                 self.configured = True
@@ -107,16 +111,15 @@ class Controller(polyinterface.Controller):
         """
 
         if self.configured == False:
-            LOGGER.info('Waiting to be configured.')
-            LOGGER.info('   key = ' + self.api_key)
-            LOGGER.info('   mac = ' + self.mac_address)
+            if self.first_poll:
+                LOGGER.info('Waiting to be configured.')
+                LOGGER.info('   key = ' + self.api_key)
+                LOGGER.info('   mac = ' + self.mac_address)
+                self.first_poll = False
             return
 
         LOGGER.info('Connecting to Ambient Weather server')
 
-        # TODO: Make the path as part of the config procesing so that
-        # we only do it once.
-        # how to limit this to one entry?
         path_str = self.url_str + self.mac_address
         path_str += '?apiKey=' + self.api_key 
         path_str += '&applicationKey=5644719c27144e3a9b0341238344c7a4bf11a7c5023f4b4cbc1538b834b80037'
