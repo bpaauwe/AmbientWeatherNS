@@ -27,7 +27,10 @@ class Controller(polyinterface.Controller):
         self.primary = self.address
         self.api_key = ''
         self.mac_address = ''
-        self.myConfig = {}
+        self.myParams = {
+                {'APIKey': '<your value here>'},
+                {'macAddress': '<your value here>'},
+                }
         self.url_str = 'http://api.ambientweather.net/v1/devices/'
         self.default = '<your value here>'
         self.configured = False
@@ -35,32 +38,35 @@ class Controller(polyinterface.Controller):
         self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
 
+    '''
+    This is called whenever there is a configuration change. Somehow
+    we need to detect if it is a change in custom parameters and then
+    process those changes.
+    '''
     def process_config(self, config):
         if 'customParams' in config:
-            LOGGER.debug('Incoming config = {}'.format(config['customParams']))
-            if config['customParams'] != self.myConfig:
+            LOGGER.debug('pc: Incoming config = {}'.format(config['customParams']))
+            if config['customParams'] != self.myParams:
                 changed_key = False
                 changed_address = False
-                if 'APIKey' in self.myConfig:
-                    if self.myConfig['APIKey'] != config['customParams']['APIKey']:
-                        changed_key = True
-                elif 'APIKey' in config['customParams']:
-                    if config['customParams']['APIKey'] != "":
+                if 'APIKey' in config['customParams']:
+                    if self.myParams['APIKey'] != config['customParams']['APIKey']:
+                        self.myParams['APIKey'] = config['customParams']['APIKey']
+                        self.api_key = config['customParams']['APIKey']
                         changed_key = True
 
-                if 'macAddress' in self.myConfig:
-                    if self.myConfig['macAddress'] != config['customParams']['macAddress']:
-                        changed_address = True
-                elif 'macAddress' in config['customParams']:
-                    if config['customParams']['macAddress'] != "":
+
+                if 'macAddress' in config['customParams']:
+                    if self.myParams['macAddress'] != config['customParams']['macAddress']:
+                        self.myParams['macAddress'] = config['customParams']['macAddress']
+                        self.mac_address = config['customParams']['macAddress']
                         changed_address = True
 
-                self.myConfig = config['customParams']
+                self.myParams = config['customParams']
+                
                 if changed_key:
-                    self.api_key = config['customParams']['APIKey']
                     self.removeNoticesAll()
                 if changed_address:
-                    self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
                 if self.mac_address != self.default and self.api_key != sefl.default:
