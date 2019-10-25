@@ -29,6 +29,8 @@ class Controller(polyinterface.Controller):
         self.mac_address = ''
         self.myConfig = {}
         self.url_str = 'http://api.ambientweather.net/v1/devices/'
+        self.default = '<your value here>'
+        self.configured = False
 
         self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
@@ -61,12 +63,17 @@ class Controller(polyinterface.Controller):
                     self.mac_address = config['customParams']['macAddress']
                     self.removeNoticesAll()
 
+                if self.mac_address != self.default AND self.api_key != sefl.default:
+                    self.configured = True
+
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
         if self.check_params():
             LOGGER.info('AmbientWeatherNS has been configured.')
+            self.configued = True
         else:
             LOGGER.info('APIKey and macAddress not set.')
+            self.configued = False
 
         self.discover()
 
@@ -81,7 +88,7 @@ class Controller(polyinterface.Controller):
         States that data is updated every 5 or 30 minutes (so which is it?)
         """
 
-        if self.api_key == '' or self.mac_address == '':
+        if !self.configured:
             LOGGER.info('Waiting to be configured.')
             LOGGER.info('   key = ' + self.api_key)
             LOGGER.info('   mac = ' + self.mac_address)
@@ -175,27 +182,28 @@ class Controller(polyinterface.Controller):
     def check_params(self):
         st = False
         self.removeNoticesAll()
+        default = '<your value here>'
         
         if 'macAddress' in self.polyConfig['customParams']:
-            if self.polyConfig['customParams']['macAddress'] != '':
+            if self.polyConfig['customParams']['macAddress'] != default:
                 self.mac_address = self.polyConfig['customParams']['macAddress']
                 st = True
             else:
                 self.addNotice({'macaddress': 'Please set your station macAddress'})
         else:
-            self.mac_address = ""
+            self.mac_address = default
             self.addCustomParam({'macAddress': self.mac_address})
             LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
             self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
         if 'APIKey' in self.polyConfig['customParams']:
-            if self.polyConfig['customParams']['APIKey'] != '':
+            if self.polyConfig['customParams']['APIKey'] != default:
                 self.api_key = self.polyConfig['customParams']['APIKey']
                 st = True
             else:
                 self.addNotice({'apikey': 'Please set APIKey to your Ambient API Key'})
         else:
-            self.api_key = ""
+            self.api_key = default
             self.addCustomParam({'APIKey': self.api_key})
             LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
             self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
