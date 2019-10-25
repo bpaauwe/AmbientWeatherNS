@@ -206,7 +206,7 @@ class Controller(polyinterface.Controller):
                 self.addNotice({'macaddress': 'Please set your station macAddress'})
         else:
             self.mac_address = default
-            self.addCustomParam({'macAddress': self.mac_address})
+            #self.addCustomParam({'macAddress': self.mac_address})
             LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
             self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
@@ -219,10 +219,11 @@ class Controller(polyinterface.Controller):
                 self.addNotice({'apikey': 'Please set APIKey to your Ambient API Key'})
         else:
             self.api_key = default
-            self.addCustomParam({'APIKey': self.api_key})
+            #self.addCustomParam({'APIKey': self.api_key})
             LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
             self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
 
+        self.addCustomParam(self.myParams)
         return st
 
     def remove_notices_all(self,command):
