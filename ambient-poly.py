@@ -69,7 +69,7 @@ class Controller(polyinterface.Controller):
                 if changed_address:
                     self.removeNoticesAll()
 
-                if self.mac_address != self.default and self.api_key != sefl.default:
+                if self.mac_address != self.default and self.api_key != self.default:
                     self.configured = True
 
     def start(self):
