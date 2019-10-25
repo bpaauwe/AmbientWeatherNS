@@ -28,8 +28,8 @@ class Controller(polyinterface.Controller):
         self.api_key = ''
         self.mac_address = ''
         self.myParams = {
-                {'APIKey': '<your value here>'},
-                {'macAddress': '<your value here>'},
+                'APIKey': '<your value here>',
+                'macAddress': '<your value here>',
                 }
         self.url_str = 'http://api.ambientweather.net/v1/devices/'
         self.default = '<your value here>'
