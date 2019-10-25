@@ -78,7 +78,8 @@ class Controller(polyinterface.Controller):
                 notices['apikey'] = 'Please set APIKey to your Ambient API Key'
                 self.configured = False
 
-            self.addNotice(notices)
+            # results in infinite loop!
+            #self.addNotice(notices)
 
 
     def start(self):
