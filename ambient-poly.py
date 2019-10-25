@@ -63,7 +63,11 @@ class Controller(polyinterface.Controller):
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
-        self.check_params()
+        if self.check_params():
+            LOGGER.info('AmbientWeatherNS has been configured.')
+        else:
+            LOGGER.info('APIKey and macAddress not set.')
+
         self.discover()
 
     def shortPoll(self):
@@ -71,7 +75,7 @@ class Controller(polyinterface.Controller):
 
     def longPoll(self):
         """
-        TODO: Here is where we want to query the server and update all
+        Here is where we want to query the server and update all
         the drivers.
         https://api.ambientweather.net/v1/devices/macAddress?apiKey=&applicationKey
         States that data is updated every 5 or 30 minutes (so which is it?)
@@ -169,38 +173,34 @@ class Controller(polyinterface.Controller):
         LOGGER.debug('NodeServer stopped.')
 
     def check_params(self):
+        st = False
+        self.removeNoticesAll()
+        
         if 'macAddress' in self.polyConfig['customParams']:
-            self.mac_address = self.polyConfig['customParams']['macAddress']
+            if self.polyConfig['customParams']['macAddress'] != '':
+                self.mac_address = self.polyConfig['customParams']['macAddress']
+                st = True
+            else:
+                self.addNotice({'macaddress': 'Please set your station macAddress'})
         else:
             self.mac_address = ""
+            self.addCustomParam({'macAddress': self.mac_address})
             LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
-            st = False
-
-        if 'APIKey' in self.polyConfig['customParams']:
-            self.api_key = self.polyConfig['customParams']['APIKey']
-        else:
-            self.api_key = ""
-            LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
-            st = False
-
-        # Make sure they are in the params
-        self.addCustomParam({
-            'APIKey': self.api_key,
-            'macAddress': self.mac_address
-            })
-        self.saveCustomParams({
-            'APIKey': self.api_key,
-            'macAddress': self.mac_address
-            })
-
-        # Remove all existing notices
-        self.removeNoticesAll()
-        # Add a notice if they need to change the user/password from the default.
-        if self.mac_address == "":
-            self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
-        if self.api_key == "":
             self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
 
+        if 'APIKey' in self.polyConfig['customParams']:
+            if self.polyConfig['customParams']['APIKey'] != '':
+                self.api_key = self.polyConfig['customParams']['APIKey']
+                st = True
+            else:
+                self.addNotice({'apikey': 'Please set APIKey to your Ambient API Key'})
+        else:
+            self.api_key = ""
+            self.addCustomParam({'APIKey': self.api_key})
+            LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
+            self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+
+        return st
 
     def remove_notices_all(self,command):
         LOGGER.info('remove_notices_all:')
