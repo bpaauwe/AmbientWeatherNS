@@ -44,6 +44,7 @@ class Controller(polyinterface.Controller):
     process those changes.
     '''
     def process_config(self, config):
+        return
         if self.started == False:
             return
 
@@ -83,7 +84,7 @@ class Controller(polyinterface.Controller):
         else:
             LOGGER.info('APIKey and macAddress not set.')
             self.configued = False
-            self.poly.onConfig(self.process_config)
+            #self.poly.onConfig(self.process_config)
 
         self.discover()
         LOGGER.info('Ambient Weather Node Server initialization complete.')
