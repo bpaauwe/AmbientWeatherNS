@@ -36,6 +36,7 @@ class Controller(polyinterface.Controller):
         self.configured = False
         self.started = False
 
+        self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
 
     '''
@@ -44,37 +45,41 @@ class Controller(polyinterface.Controller):
     process those changes.
     '''
     def process_config(self, config):
-        return
         if self.started == False:
+            LOGGER.debug('Ignore config, NS not yet started')
             return
+
+        changed_key = False
+        changed_address = False
 
         if 'customParams' in config:
             LOGGER.debug('pc: Incoming config = {}'.format(config['customParams']))
-            if config['customParams'] != self.myParams:
-                changed_key = False
-                changed_address = False
-                if 'APIKey' in config['customParams']:
-                    if self.myParams['APIKey'] != config['customParams']['APIKey']:
-                        self.myParams['APIKey'] = config['customParams']['APIKey']
-                        self.api_key = config['customParams']['APIKey']
-                        changed_key = True
+            if 'APIKey' in config['customParams']:
+                if self.myParams['APIKey'] != config['customParams']['APIKey']:
+                    self.myParams['APIKey'] = config['customParams']['APIKey']
+                    self.api_key = config['customParams']['APIKey']
+                    changed_key = True
 
+            if 'macAddress' in config['customParams']:
+                if self.myParams['macAddress'] != config['customParams']['macAddress']:
+                    self.myParams['macAddress'] = config['customParams']['macAddress']
+                    self.mac_address = config['customParams']['macAddress']
+                    changed_address = True
 
-                if 'macAddress' in config['customParams']:
-                    if self.myParams['macAddress'] != config['customParams']['macAddress']:
-                        self.myParams['macAddress'] = config['customParams']['macAddress']
-                        self.mac_address = config['customParams']['macAddress']
-                        changed_address = True
-
-                self.myParams = config['customParams']
                 
-                if changed_key:
-                    self.removeNoticesAll()
-                if changed_address:
-                    self.removeNoticesAll()
+            # Update notices
+            self.removeNoticesAll()
+            notices = {}
+            self.configured = True
+            if self.mac_address == self.default:
+                notices['macaddress'] = 'Please set your station macAddress'
+                self.configured = False
+            if self.api_key == self.default:
+                notices['apikey'] = 'Please set APIKey to your Ambient API Key'
+                self.configured = False
 
-                if self.mac_address != self.default and self.api_key != self.default:
-                    self.configured = True
+            self.addNotice(notices)
+
 
     def start(self):
         LOGGER.info('Started Ambient Weather Node Server')
@@ -84,7 +89,6 @@ class Controller(polyinterface.Controller):
         else:
             LOGGER.info('APIKey and macAddress not set.')
             self.configued = False
-            #self.poly.onConfig(self.process_config)
 
         self.discover()
         LOGGER.info('Ambient Weather Node Server initialization complete.')
@@ -193,7 +197,7 @@ class Controller(polyinterface.Controller):
         LOGGER.debug('NodeServer stopped.')
 
     def check_params(self):
-        st = False
+        st = True
         self.removeNoticesAll()
         notices = {}
         default = '<your value here>'
@@ -202,12 +206,12 @@ class Controller(polyinterface.Controller):
             if self.polyConfig['customParams']['macAddress'] != default:
                 self.mac_address = self.polyConfig['customParams']['macAddress']
                 self.myParams['macAddress'] = self.mac_address
-                st = True
             else:
                 notices['macaddress'] = 'Please set your station macAddress'
+                st = False
         else:
+            st = False
             self.mac_address = default
-            #self.addCustomParam({'macAddress': self.mac_address})
             LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
             notices['macaddress'] = 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'
 
@@ -215,16 +219,16 @@ class Controller(polyinterface.Controller):
             if self.polyConfig['customParams']['APIKey'] != default:
                 self.api_key = self.polyConfig['customParams']['APIKey']
                 self.myParams['APIKey'] = self.api_key
-                st = True
             else:
                 notices['apikey'] = 'Please set APIKey to your Ambient API Key'
+                st = False
         else:
+            st = False
             self.api_key = default
-            #self.addCustomParam({'APIKey': self.api_key})
             LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
             notices['apikey'] = 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'
 
-        # Must be called with all parameters!
+        # Must be called with all parameters and all notices!
         self.addCustomParam(self.myParams)
         self.addNotice(notices)
         return st
