@@ -36,7 +36,6 @@ class Controller(polyinterface.Controller):
         self.configured = False
         self.started = False
 
-        self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
 
     '''
@@ -84,8 +83,10 @@ class Controller(polyinterface.Controller):
         else:
             LOGGER.info('APIKey and macAddress not set.')
             self.configued = False
+            self.poly.onConfig(self.process_config)
 
         self.discover()
+        LOGGER.info('Ambient Weather Node Server initialization complete.')
         self.started = True
 
     def shortPoll(self):
