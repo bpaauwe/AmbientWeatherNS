@@ -195,6 +195,7 @@ class Controller(polyinterface.Controller):
     def check_params(self):
         st = False
         self.removeNoticesAll()
+        notices = {}
         default = '<your value here>'
         
         if 'macAddress' in self.polyConfig['customParams']:
@@ -203,12 +204,12 @@ class Controller(polyinterface.Controller):
                 self.myParams['macAddress'] = self.mac_address
                 st = True
             else:
-                self.addNotice({'macaddress': 'Please set your station macAddress'})
+                notices['macaddress'] = 'Please set your station macAddress'
         else:
             self.mac_address = default
             #self.addCustomParam({'macAddress': self.mac_address})
             LOGGER.error('check_params: macAddress not defined in customParams, please add it.')
-            self.addNotice({'macaddress': 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'})
+            notices['macaddress'] = 'Please add a customParam with key "macAddress" and value set to your Ambient station MAC address'
 
         if 'APIKey' in self.polyConfig['customParams']:
             if self.polyConfig['customParams']['APIKey'] != default:
@@ -216,14 +217,16 @@ class Controller(polyinterface.Controller):
                 self.myParams['APIKey'] = self.api_key
                 st = True
             else:
-                self.addNotice({'apikey': 'Please set APIKey to your Ambient API Key'})
+                notices['apikey'] = 'Please set APIKey to your Ambient API Key'
         else:
             self.api_key = default
             #self.addCustomParam({'APIKey': self.api_key})
             LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
-            self.addNotice({'apikey': 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'})
+            notices['apikey'] = 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'
 
+        # Must be called with all parameters!
         self.addCustomParam(self.myParams)
+        self.addNotice(notices)
         return st
 
     def remove_notices_all(self,command):
