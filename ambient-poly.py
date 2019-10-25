@@ -49,8 +49,7 @@ class Controller(polyinterface.Controller):
             LOGGER.debug('Ignore config, NS not yet started')
             return
 
-        changed_key = False
-        changed_address = False
+        changed = False
 
         if 'customParams' in config:
             LOGGER.debug('pc: Incoming config = {}'.format(config['customParams']))
@@ -58,28 +57,29 @@ class Controller(polyinterface.Controller):
                 if self.myParams['APIKey'] != config['customParams']['APIKey']:
                     self.myParams['APIKey'] = config['customParams']['APIKey']
                     self.api_key = config['customParams']['APIKey']
-                    changed_key = True
+                    changed = True
 
             if 'macAddress' in config['customParams']:
                 if self.myParams['macAddress'] != config['customParams']['macAddress']:
                     self.myParams['macAddress'] = config['customParams']['macAddress']
                     self.mac_address = config['customParams']['macAddress']
-                    changed_address = True
+                    changed = True
 
                 
-            # Update notices
-            self.removeNoticesAll()
-            notices = {}
-            self.configured = True
-            if self.mac_address == self.default:
-                notices['macaddress'] = 'Please set your station macAddress'
-                self.configured = False
-            if self.api_key == self.default:
-                notices['apikey'] = 'Please set APIKey to your Ambient API Key'
-                self.configured = False
+            if changed:
+                LOGGER.debug('Configuration change detected.')
+                # Update notices
+                self.removeNoticesAll()
+                notices = {}
+                self.configured = True
+                if self.mac_address == self.default:
+                    notices['macaddress'] = 'Please set your station macAddress'
+                    self.configured = False
+                if self.api_key == self.default:
+                    notices['apikey'] = 'Please set APIKey to your Ambient API Key'
+                    self.configured = False
 
-            # results in infinite loop!
-            #self.addNotice(notices)
+                self.addNotice(notices)
 
 
     def start(self):
