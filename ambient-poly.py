@@ -34,6 +34,7 @@ class Controller(polyinterface.Controller):
         self.url_str = 'http://api.ambientweather.net/v1/devices/'
         self.default = '<your value here>'
         self.configured = False
+        self.started = False
 
         self.poly.onConfig(self.process_config)
         LOGGER.info('Finished controller init.')
@@ -44,6 +45,9 @@ class Controller(polyinterface.Controller):
     process those changes.
     '''
     def process_config(self, config):
+        if self.started == False:
+            return
+
         if 'customParams' in config:
             LOGGER.debug('pc: Incoming config = {}'.format(config['customParams']))
             if config['customParams'] != self.myParams:
@@ -82,6 +86,7 @@ class Controller(polyinterface.Controller):
             self.configued = False
 
         self.discover()
+        self.started = True
 
     def shortPoll(self):
         pass
@@ -193,6 +198,7 @@ class Controller(polyinterface.Controller):
         if 'macAddress' in self.polyConfig['customParams']:
             if self.polyConfig['customParams']['macAddress'] != default:
                 self.mac_address = self.polyConfig['customParams']['macAddress']
+                self.myParams['macAddress'] = self.mac_address
                 st = True
             else:
                 self.addNotice({'macaddress': 'Please set your station macAddress'})
@@ -205,6 +211,7 @@ class Controller(polyinterface.Controller):
         if 'APIKey' in self.polyConfig['customParams']:
             if self.polyConfig['customParams']['APIKey'] != default:
                 self.api_key = self.polyConfig['customParams']['APIKey']
+                self.myParams['APIKey'] = self.api_key
                 st = True
             else:
                 self.addNotice({'apikey': 'Please set APIKey to your Ambient API Key'})
