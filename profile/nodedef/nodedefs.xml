@@ -1,7 +1,7 @@
 <nodeDefs>
     <!-- NODE DEF from 5.0 document http://wiki.universal-devices.com/index.php?title=V50_MAIN -->
     <!-- controller -->
-    <nodeDef id="Weather" nodeType="139" nls="ctl">
+    <nodeDef id="Ambient" nodeType="139" nls="ctl">
         <editors />
         <sts>
 			<st id="ST" editor="bool" />
