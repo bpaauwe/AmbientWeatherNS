@@ -56,6 +56,8 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.6 11/26/2019
+   - Clean up profile files.
 - 0.1.5 10/25/2019
    - Improve custom parameter handling for cloud.
 - 0.1.4 10/24/2019
