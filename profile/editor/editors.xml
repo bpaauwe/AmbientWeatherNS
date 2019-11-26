@@ -35,7 +35,7 @@
 		<range uom="117" min="0" max="10000" prec="3" />
 	</editor>
 	<editor id="I_DISTANCE">
-		<range uom="56" min="0" max="20000" prec="2" />
+		<range uom="116" min="0" max="20000" prec="2" />
 		<range uom="83" min="0" max="20000" prec="2" />
 	</editor>
 	<editor id="I_VOLTS">
@@ -62,6 +62,9 @@
 		<range uom="105" min="0" max="20000" prec="3" />
 		<range uom="82" min="0" max="20000" prec="3" />
 	</editor>
+    <editor id="I_STRIKES">
+        <range uom="56" min="0" max="10000" prec="0" />
+    </editor>
 
 	<editor id="I_TEMP_C">
 		<range uom="4" min="-50" max="75" step="0.5" prec="1" />
