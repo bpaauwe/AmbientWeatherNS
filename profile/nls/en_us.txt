@@ -1,6 +1,4 @@
 # controller
-ND-Weather-NAME = Ambient Weather
-ND-Weather-ICON = Weather
 ND-Ambient-NAME = Ambient Weather
 ND-Ambient-ICON = Weather
 CMD-ctl-DISCOVER-NAME = Re-Discover
