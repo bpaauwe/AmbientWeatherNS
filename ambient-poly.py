@@ -85,9 +85,11 @@ class Controller(polyinterface.Controller):
                 self.configured = True
                 if self.mac_address == self.default:
                     notices['mac'] = 'Please set your station macAddress (1)'
+                    LOGGER.debug('mac address net set, set configured to false')
                     self.configured = False
                 if self.api_key == self.default:
                     notices['key'] = 'Please set APIKey to your Ambient API Key (1)'
+                    LOGGER.debug('api key net set, set configured to false')
                     self.configured = False
 
                 self.addNotice(notices)
@@ -97,10 +99,10 @@ class Controller(polyinterface.Controller):
         LOGGER.info('Started Ambient Weather Node Server')
         if self.check_params():
             LOGGER.info('AmbientWeatherNS has been configured.')
-            self.configued = True
+            self.configured = True
         else:
             LOGGER.info('APIKey and macAddress not set.')
-            self.configued = False
+            self.configured = False
 
         self.discover()
         LOGGER.info('Ambient Weather Node Server initialization complete.')
