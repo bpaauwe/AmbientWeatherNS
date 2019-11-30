@@ -84,4 +84,12 @@
             <st id="GV0" editor="I_DISTANCE" />
         </sts>
     </nodeDef>
+
+    <nodeDef id="indoor" nodeType="139" nls="139I">
+        <editors />
+        <sts>
+            <st id="ST" editor="I_TEMP" />
+            <st id="GV0" editor="I_HUMIDITY" />
+		</sts>
+	</nodeDef>
 </nodeDefs>

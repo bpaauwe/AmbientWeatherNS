@@ -74,6 +74,11 @@ ND-lightningUS-ICON = Input
 ST-139S-ST-NAME = Strikes
 ST-139S-GV0-NAME = Distance
 
+ND-indoor-NAME = Indoor Sensors
+ND-indoor-ICON = Input
+ST-139I-ST-NAME = Temperature
+GV0-139I-ST-NAME = Humidity
+
 EN_RAINTYPE-0 = None
 EN_RAINTYPE-1 = Rain
 EN_RAINTYPE-2 = Hail

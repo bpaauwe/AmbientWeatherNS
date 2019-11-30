@@ -180,6 +180,9 @@ class Controller(polyinterface.Controller):
             elif self.nodes[node].id == 'light':
                 self.set_driver(node, 'ST', d, 'uv')
                 #self.set_driver(node, 'GV0', d, 'solarradiation')
+            elif self.nodes[node].id == 'indoor':
+                self.set_driver(node, 'ST', d, 'tempinf')
+                self.set_driver(node, 'GV0', d, 'humidityin')
 
 
     def set_driver(self, node, driver, data, index):
@@ -200,6 +203,8 @@ class Controller(polyinterface.Controller):
         self.addNode(WindNode(self, self.address, 'wind', 'Wind'))
         self.addNode(PrecipitationNode(self, self.address, 'rain', 'Precipitation'))
         self.addNode(LightNode(self, self.address, 'light', 'Illumination'))
+        if self.indoor.tolower() == 'enabled':
+            self.addNode(IndoorNode(self, self.address, 'indoor', 'Indoor Sensor'))
 
     def delete(self):
         LOGGER.info('Deleting the Ambient Weather node server.')
@@ -362,6 +367,13 @@ class LightNode(polyinterface.Node):
             {'driver': 'ST', 'value': 0, 'uom': 71},  # UV
             {'driver': 'GV0', 'value': 0, 'uom': 74},  # solar radiation
             {'driver': 'GV1', 'value': 0, 'uom': 36},  # Lux
+            ]
+
+class IndoorNode(polyinterface.Node):
+    id = 'indoor'
+    drivers = [
+            {'driver': 'ST', 'value': 0, 'uom': 17},  # indoor temp
+            {'driver': 'GV0', 'value': 0, 'uom': 22},  # indoor humidity
             ]
 
 if __name__ == "__main__":
