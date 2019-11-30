@@ -203,7 +203,7 @@ class Controller(polyinterface.Controller):
         self.addNode(WindNode(self, self.address, 'wind', 'Wind'))
         self.addNode(PrecipitationNode(self, self.address, 'rain', 'Precipitation'))
         self.addNode(LightNode(self, self.address, 'light', 'Illumination'))
-        if self.indoor.tolower() == 'enabled':
+        if self.indoor.lower() == 'enabled':
             self.addNode(IndoorNode(self, self.address, 'indoor', 'Indoor Sensor'))
 
     def delete(self):
