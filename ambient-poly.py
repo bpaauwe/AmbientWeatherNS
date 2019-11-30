@@ -215,11 +215,13 @@ class Controller(polyinterface.Controller):
                 param = self.polyConfig['customParams']['macAddress']
                 myParams[name] = param
             else:
-                notices[name] = notice
+                if notice != '':
+                    notices[name] = notice
                 st = False
         else:
             LOGGER.error('check_params: %s not defined in customParams' % name)
-            notices[name] = notice
+            if notice != '':
+                notices[name] = notice
             st = False
 
         return st, param
@@ -232,7 +234,7 @@ class Controller(polyinterface.Controller):
         
         st1, self.mac_address = self.check_param('macAddress', self.myParams, default, notices, 'Missing station MAC address')
         st2, self.api_key = self.check_param('APIKey', self.myParams, default, notices, 'Missing Ambient API key')
-        st3, self.indoor = self.check_param('indoor', self.myParams, 'disabled', notices, 'Missing indoor flag')
+        st3, self.indoor = self.check_param('indoor', self.myParams, 'disabled', notices, '')
         
         if 'macAddress' in self.polyConfig['customParams']:
             if self.polyConfig['customParams']['macAddress'] != default:
