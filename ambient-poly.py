@@ -184,11 +184,13 @@ class Controller(polyinterface.Controller):
                 self.set_driver(node, 'ST', d, 'tempinf')
                 self.set_driver(node, 'GV0', d, 'humidityin')
 
+        self.first_poll = False
+
 
     def set_driver(self, node, driver, data, index):
         try:
             self.nodes[node].setDriver(driver, data[index],
-                    report = True, force = True)
+                    report = True, force = self.first_poll)
         except (ValueError, KeyError, TypeError):
             LOGGER.error('Missing data: ' + index)
 
