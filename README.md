@@ -56,6 +56,12 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.8 11/30/2019
+   - Check for barometric pressure before trying to calculate trend.
+   - Change missing entries from error to warning.
+- 0.1.7 11/29/2019
+   - Add configurable indoor sensor node
+   - Stop forcing all values to be sent every time.
 - 0.1.6 11/26/2019
    - Clean up profile files.
 - 0.1.5 10/25/2019
