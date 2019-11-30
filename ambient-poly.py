@@ -27,6 +27,7 @@ class Controller(polyinterface.Controller):
         self.primary = self.address
         self.api_key = ''
         self.mac_address = ''
+        self.indoor = 'disabled'
         self.myParams = {
                 'APIKey': '<your value here>',
                 'macAddress': '<your value here>',
@@ -64,6 +65,11 @@ class Controller(polyinterface.Controller):
                 if self.myParams['macAddress'] != config['customParams']['macAddress']:
                     self.myParams['macAddress'] = config['customParams']['macAddress']
                     self.mac_address = config['customParams']['macAddress']
+                    changed = True
+            if 'indoor' in config['customParams']:
+                if self.myParams['indoor'] != config['customParams']['indoor']:
+                    self.myParams['indoor'] = config['customParams']['indoor']
+                    self.indoor = config['customParams']['indoor']
                     changed = True
 
                 
@@ -200,11 +206,32 @@ class Controller(polyinterface.Controller):
     def stop(self):
         LOGGER.debug('NodeServer stopped.')
 
+    def check_param(self, name, myParams, default, notices, notice):
+        param = default
+        st = True
+        if name in self.polyConfig['customParams']:
+            if self.polyConfig['customParams'][name] != default:
+                param = self.polyConfig['customParams']['macAddress']
+                myParams[name] = param
+            else:
+                notices[name] = notice
+                st = False
+        else:
+            LOGGER.error('check_params: %s not defined in customParams' % name)
+            notices[name] = notice
+            st = False
+
+        return st, param
+
     def check_params(self):
         st = True
         self.removeNoticesAll()
         notices = {}
         default = '<your value here>'
+        
+        st1, self.mac_address = self.check_param('macAddress', self.myParams, default, notices, 'Missing station MAC address')
+        st2, self.api_key = self.check_param('APIKey', self.myParams, default, notices, 'Missing Ambient API key')
+        st3, self.indoor = self.check_param('indoor', self.myParams, 'disabled', notices, 'Missing indoor flag')
         
         if 'macAddress' in self.polyConfig['customParams']:
             if self.polyConfig['customParams']['macAddress'] != default:
@@ -232,10 +259,17 @@ class Controller(polyinterface.Controller):
             LOGGER.error('check_params: APIKey not defined in customParams, please add it.')
             notices['apikey'] = 'Please add a customParam with key "APIKey" and value set to your Ambient API Key'
 
+        if 'indoor' in self.polyConfig['customParams']:
+            if self.polyConfig['customParams']['indoor'] != 'disabled':
+                self.indoor = self.polyConfig['customParams']['indoor']
+                self.myParams['indoor'] = self.indoor
+        else:
+            self.indoor = 'disabled'
+
         # Must be called with all parameters and all notices!
         self.addCustomParam(self.myParams)
         self.addNotice(notices)
-        return st
+        return (st1 and st2)
 
     def remove_notices_all(self,command):
         LOGGER.info('remove_notices_all:')
