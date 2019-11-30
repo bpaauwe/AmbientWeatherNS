@@ -154,11 +154,12 @@ class Controller(polyinterface.Controller):
 
         for node in self.nodes:
             if self.nodes[node].id == 'pressure':
-                self.set_driver(node, 'ST', d, 'baromabsin')
                 self.set_driver(node, 'GV0', d, 'baromrelin')
+                if 'baromabsin' in d:
+                    self.set_driver(node, 'ST', d, 'baromabsin')
 
-                trend = self.nodes[node].updateTrend(d['baromabsin'])
-                self.nodes[node].setDriver('GV1', trend, report = True, force = True)
+                    trend = self.nodes[node].updateTrend(d['baromabsin'])
+                    self.nodes[node].setDriver('GV1', trend, report = True, force = True)
             elif self.nodes[node].id == 'temperature':
                 self.set_driver(node, 'ST', d, 'tempf')
                 self.set_driver(node, 'GV0', d, 'feelsLike')
@@ -194,7 +195,7 @@ class Controller(polyinterface.Controller):
             self.nodes[node].setDriver(driver, data[index],
                     report = True, force = self.first_poll)
         except (ValueError, KeyError, TypeError):
-            LOGGER.error('Missing data: ' + index)
+            LOGGER.warning('Missing data: ' + index)
 
     def query(self):
         for node in self.nodes:
