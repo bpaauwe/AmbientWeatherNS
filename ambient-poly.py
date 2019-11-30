@@ -31,6 +31,7 @@ class Controller(polyinterface.Controller):
         self.myParams = {
                 'APIKey': '<your value here>',
                 'macAddress': '<your value here>',
+                'indoor': 'disabled',
                 }
         self.url_str = 'http://api.ambientweather.net/v1/devices/'
         self.default = '<your value here>'
