@@ -182,7 +182,7 @@ class Controller(polyinterface.Controller):
                 self.set_driver(node, 'GV4', d, 'yearlyrainin')
             elif self.nodes[node].id == 'light':
                 self.set_driver(node, 'ST', d, 'uv')
-                #self.set_driver(node, 'GV0', d, 'solarradiation')
+                self.set_driver(node, 'GV0', d, 'solarradiation')
             elif self.nodes[node].id == 'indoor':
                 self.set_driver(node, 'ST', d, 'tempinf')
                 self.set_driver(node, 'GV0', d, 'humidityin')
