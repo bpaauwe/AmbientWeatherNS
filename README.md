@@ -56,6 +56,8 @@ The AmbientWeather nodeserver keeps track of the version number and when a profi
 
 # Release Notes
 
+- 0.1.10 1/29/2020
+   - Trap errors with connecting to Ambient servers.
 - 0.1.9 12/27/2019
    - Enable solar radiation reporting if it exists in the data.
 - 0.1.8 11/30/2019

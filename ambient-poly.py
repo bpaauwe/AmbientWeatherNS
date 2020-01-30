@@ -135,7 +135,12 @@ class Controller(polyinterface.Controller):
         path_str += '&limit=1'
         LOGGER.info(path_str)
 
-        c = requests.get(path_str)
+        try:
+            c = requests.get(path_str)
+        except:
+            LOGGER.error('Request to Ambient servers failed.')
+            return
+
         awdata = c.json()
 
         # deserialize data into an object?
