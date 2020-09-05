@@ -141,7 +141,12 @@ class Controller(polyinterface.Controller):
             LOGGER.error('Request to Ambient servers failed.')
             return
 
-        awdata = c.json()
+        try:
+            awdata = c.json()
+        except:
+            LOGGER.error('Ambient sent no data in response to request.')
+            LOGGER.error(str(c))
+            return
 
         # deserialize data into an object?
         try:
